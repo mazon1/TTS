@@ -14,8 +14,8 @@ model = whisper.load_model("base")
 
 
 # Set up the API key
-GEMINI_API_KEY = os.getenv('GEMINIAPI_KEY', st.secrets.get("GEMINI_API_KEY"))
-genai.configure(api_key=GEMINI_API_KEY)
+GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY', st.secrets.get("GOOGLE_API_KEY"))
+genai.configure(api_key=GOOGLE_API_KEY)
 
 def get_gemini_response(prompt: str) -> str:
     headers = {

@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+openai-whisper
+torch
+gTTS
+requests
+streamlit
+python-multipart
+streamlit-audiorecorder

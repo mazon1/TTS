@@ -5,21 +5,20 @@ from gtts import gTTS
 import base64
 import tempfile
 import requests
-import streamlit as st  # Import streamlit to access secrets
+import streamlit as st  # Only if your backend is deployed with Streamlit
 
 router = APIRouter()
 
 # Load Whisper Model
 model = whisper.load_model("base")
 
-
-# Set up the API key
+# Set up the API key using GOOGLE_API_KEY from environment or Streamlit secrets
 GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY', st.secrets.get("GOOGLE_API_KEY"))
-genai.configure(api_key=GOOGLE_API_KEY)
+GEMINI_ENDPOINT = "https://api.gemini.com/v1/chat"  # Update with your actual Gemini endpoint
 
 def get_gemini_response(prompt: str) -> str:
     headers = {
-        "Authorization": f"Bearer {GEMINI_API_KEY}",
+        "Authorization": f"Bearer {GOOGLE_API_KEY}",
         "Content-Type": "application/json"
     }
     data = {
@@ -30,7 +29,7 @@ def get_gemini_response(prompt: str) -> str:
     response = requests.post(GEMINI_ENDPOINT, headers=headers, json=data)
     response.raise_for_status()
     result = response.json()
-    # Adjust this based on the actual response format from Gemini
+    # Adjust based on the actual response format from Gemini
     return result.get("reply", "Sorry, no response was generated.")
 
 @router.post("/transcribe/")

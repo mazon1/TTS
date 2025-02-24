@@ -12,9 +12,10 @@ router = APIRouter()
 # Load Whisper Model
 model = whisper.load_model("base")
 
-# Access Gemini API key from Streamlit secrets
-GEMINI_API_KEY = st.secrets["gemini"]["api_key"]
-GEMINI_ENDPOINT = "https://api.gemini.com/v1/chat"  # Replace with your actual endpoint
+
+# Set up the API key
+GEMINI_API_KEY = os.getenv('GEMINIAPI_KEY', st.secrets.get("GEMINI_API_KEY"))
+genai.configure(api_key=GEMINI_API_KEY)
 
 def get_gemini_response(prompt: str) -> str:
     headers = {
